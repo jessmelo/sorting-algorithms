@@ -6,7 +6,7 @@ public class Main {
         int[] arr = {5, 2, 1, 3, 6, 4};
         BubbleSort.sort(arr);
 
-        int[] arr2 = {5, 2, 1, 3, 6, 4};
+        int[] arr2 = {5, 2, 1, 3, 6, 4, 5, 9, 244, 592, 1000, 0};
         MergeSort.sort(arr2);
     }
 }
