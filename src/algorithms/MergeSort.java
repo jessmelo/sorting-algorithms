@@ -8,51 +8,58 @@ public class MergeSort {
     }
 
     private static void partition(int[] arr) {
-        // partition the array into two halves
-        int n = arr.length;
-        if (n < 2) {
-            // if the array has less than 2 elements, it is already sorted
+        int size = arr.length;
+        // if the array has only one element, it is already sorted
+        if (size == 1) {
             return;
         }
-        int mid = n / 2;
+        // partition the array into two halves
+        int mid = size / 2;
         int[] left = new int[mid];
-        int[] right = new int[n - mid];
+        int[] right = new int[size - mid];
 
-        for (int i = 0; i < mid; i++) {
-            left[i] = arr[i];
+        for (int i = 0; i < left.length; i++) {
+            left[i] = arr[i]; // left elements
         }
-        for (int i = mid; i < n; i++) {
-            right[i - mid] = arr[i];
+
+        for (int i = 0; i < right.length; i++) {
+            right[i] = arr[mid + i]; // right elements
         }
+
+        // recursively partition the two halves until they have only one element
         partition(left);
         partition(right);
+
+        // now sort and merge the two halves recursively
         merge(left, right, arr);
     }
 
     public static void merge(int[] left, int[] right, int[] arr) {
-        int nL = left.length;
-        int nR = right.length;
-        int i = 0, j = 0, k = 0;
+        int[] merged = new int[left.length + right.length];
+        int leftIndex = 0;
+        int rightIndex = 0;
 
-        while (i < nL && j < nR) {
-            if (left[i] <= right[j]) {
-                arr[k] = left[i];
-                i++;
-            } else {
-                arr[k] = right[j];
-                j++;
+        for (int i = 0; i < merged.length; i++) {
+            if (leftIndex == left.length) {
+                merged[i] = right[rightIndex];
+                rightIndex++;
+                continue;
             }
-            k++;
+            if (rightIndex == right.length) {
+                merged[i] = left[leftIndex];
+                leftIndex++;
+                continue;
+            }
+            if (left[leftIndex] < right[rightIndex]) {
+                merged[i] = left[leftIndex];
+                leftIndex++;
+            } else {
+                merged[i] = right[rightIndex];
+                rightIndex++;
+            }
         }
-        while (i < nL) {
-            arr[k] = left[i];
-            i++;
-            k++;
-        }
-        while (j < nR) {
-            arr[k] = right[j];
-            j++;
-            k++;
-        }
+
+        // copy the merged array back to the original array
+        System.arraycopy(merged, 0, arr, 0, merged.length);
     }
 }
